@@ -1,0 +1,26 @@
+version: "3"
+services:
+ vendorPortal:
+  image: boloyon/selenium
+  deploy:
+    replicas: 1
+  environment:
+  #- SE_EVENT_BUS_HOST=hub
+  - BROWSER=edge
+  - HOST=192.168.1.38
+  - TEST_SUITE=vendor-portal-json.xml
+  - THREAD_COUNT=3
+  volumes:
+  - ./output/vendor-portal:/home/selenium-docker/test-output
+ flightPortal:
+  image: boloyon/selenium
+  deploy:
+    replicas: 1
+  environment:
+  #- SE_EVENT_BUS_HOST=hub
+  - BROWSER=firefox
+  - HOST=192.168.1.38
+  - TEST_SUITE=flight-reservation-json.xml
+  - THREAD_COUNT=3
+  volumes:
+  - ./output/flight-portal:/home/selenium-docker/test-output

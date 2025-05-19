@@ -4,25 +4,29 @@ pipeline{
 agent any
 
 stages{
-stage('containers UP, Run test '){
+stage('stage 1 - start grid'){
 steps{
-bat "docker-compose up"
-echo "creating the grid, browsers, test containers"
+bat "docker-compose -f grid.yaml -d"
+echo "starting the grid"
 }
 }
-stage('stage-2'){
+stage('stage 2 - start the test'){
 steps{
-bat "docker-compose down"
-echo "pushing docker image"
+bat "docker-compose -f test-suites.yaml"
+echo "running the tests"
 
 }
 }
+
+
 }
 
 
 post{
 always {
-echo "post actions"
+bat "docker-compose -f test-suites.yaml down"
+bat "docker-compose -f grid.yaml down"
+echo "deleting the containers..."
 }
 }
 

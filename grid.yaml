@@ -1,0 +1,32 @@
+version: "3"
+services:
+ hub:
+  image: selenium/hub:4.27
+ chrome:
+  image: selenium/node-chromium:4.27
+  shm_size: '2g'
+  depends_on:
+  - hub
+  deploy:
+    replicas: 1
+  env_file: .env
+ firefox:
+  image: selenium/node-firefox:4.27.0
+  shm_size: '2g'
+  depends_on:
+  - hub
+  deploy:
+    replicas: 1
+  env_file: .env
+ edge:
+  image: selenium/node-edge:4.27.0
+  shm_size: '2g'
+  depends_on:
+  - hub
+  deploy:
+    replicas: 1
+  env_file: .env
+  
+  # to scale these containers you might use the following command:
+  # docker-compose -f grid.yaml up --scale chrome=2 -d
+  # this will start 2 chrome containers for the file grid.yaml in detached mode
