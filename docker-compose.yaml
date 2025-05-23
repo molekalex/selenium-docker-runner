@@ -1,0 +1,75 @@
+version: "3"
+services:
+ hub:
+  image: selenium/hub:4.27
+  ports:
+  - 4444:4444
+  # 4442:4442
+  # 4443:4443
+ chrome:
+  image: selenium/node-chromium:4.27
+  shm_size: '2g'
+  depends_on:
+  - hub
+  deploy:
+    replicas: 1
+  environment:
+  - SE_EVENT_BUS_HOST=hub
+  - SE_EVENT_BUS_PUBLISH_PORT=4442
+  - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  - SE_NODE_OVERRIDE_MAX_SESSION=true
+  - SE_NODE_MAX_SESSIONS=3
+ firefox:
+  image: selenium/node-firefox:4.27.0
+  shm_size: '2g'
+  depends_on:
+  - hub
+  deploy:
+    replicas: 1
+  environment:
+  - SE_EVENT_BUS_HOST=hub
+  - SE_EVENT_BUS_PUBLISH_PORT=4442
+  - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  - SE_NODE_OVERRIDE_MAX_SESSION=true
+  - SE_NODE_MAX_SESSIONS=3
+ edge:
+  image: selenium/node-edge:4.27.0
+  shm_size: '2g'
+  depends_on:
+  - hub
+  deploy:
+    replicas: 2
+  environment:
+  - SE_EVENT_BUS_HOST=hub
+  - SE_EVENT_BUS_PUBLISH_PORT=4442
+  - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  - SE_NODE_OVERRIDE_MAX_SESSION=true
+  - SE_NODE_MAX_SESSIONS=3
+ vendorPortal:
+  image: boloyon/selenium
+  depends_on:
+  - edge
+  deploy:
+    replicas: 1
+  environment:
+  #- SE_EVENT_BUS_HOST=hub
+  - BROWSER=edge
+  - HOST=hub
+  - TEST_SUITE=vendor-portal-json.xml
+  - THREAD_COUNT=3
+  volumes:
+  - ./output/vendor-portal:/home/selenium-docker/test-output
+ flightPortal:
+  image: boloyon/selenium
+  depends_on:
+  - firefox
+  deploy:
+    replicas: 1
+  environment:
+  #- SE_EVENT_BUS_HOST=hub
+  - BROWSER=firefox
+  - HOST=hub
+  - TEST_SUITE=flight-reservation-json.xml
+  - THREAD_COUNT=3
+  volumes:
+  - ./output/flight-portal:/home/selenium-docker/test-output
