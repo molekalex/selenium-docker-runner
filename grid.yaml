@@ -24,9 +24,5 @@ services:
   depends_on:
   - hub
   deploy:
-    replicas: 1
+    replicas: 2
   env_file: .env
-  
-  # to scale these containers you might use the following command:
-  # docker-compose -f grid.yaml up --scale chrome=2 -d
-  # this will start 2 chrome containers for the file grid.yaml in detached mode
