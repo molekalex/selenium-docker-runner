@@ -5,7 +5,7 @@ services:
   deploy:
     replicas: 1
   environment:
-  - BROWSER=edge
+  - BROWSER
   - HOST=hub
   - TEST_SUITE=vendor-portal-json.xml
   - THREAD_COUNT=3
@@ -16,7 +16,7 @@ services:
   deploy:
     replicas: 1
   environment:
-  - BROWSER=firefox
+  - BROWSER
   - HOST=hub
   - TEST_SUITE=flight-reservation-json.xml
   - THREAD_COUNT=3
