@@ -11,7 +11,7 @@ parameters {
 stages{
 stage('stage1 - grid up'){
 steps{
-bat "docker-compose -f grid.yaml up --scale ${params.BROWSER}=2 -d"
+bat "docker-compose -f grid.yaml up --scale ${params.BROWSER}=4 -d"
 echo "starting the grid..."
 }
 }
