@@ -1,5 +1,16 @@
 version: "3"
 services:
+ vendorPortal:
+  image: boloyong/selenium-jenk
+  deploy:
+    replicas: 1
+  environment:
+  - BROWSER
+  - HOST=hub
+  - TEST_SUITE=vendor-portal-json.xml
+  - THREAD_COUNT=3
+  volumes:
+  - ./output/vendor-portal:/home/selenium-docker/test-output
  flightPortal:
   image: boloyong/selenium-jenk
   deploy:
@@ -8,6 +19,6 @@ services:
   - BROWSER
   - HOST=hub
   - TEST_SUITE=flight-reservation-json.xml
-  - THREAD_COUNT=1
+  - THREAD_COUNT=3
   volumes:
   - ./output/flight-portal:/home/selenium-docker/test-output
