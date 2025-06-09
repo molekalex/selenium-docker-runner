@@ -22,7 +22,7 @@ bat "docker-compose -f test-suites.yaml up --pull=always"
 echo "starting the tests..."
 }
 
-
+}
 }
 
 post{
@@ -34,6 +34,6 @@ archiveArtifacts artifacts: 'output/vendor-portal/emailable-report.html', follow
 }
 }
 
-}
+
 
 }
